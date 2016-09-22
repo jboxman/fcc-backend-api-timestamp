@@ -126,7 +126,8 @@ var express = __webpack_require__(0);
 var chrono = __webpack_require__(2);
 
 var app = express();
-var port = 3100;
+// Required for heroku
+var port = process.env.PORT || 3100;
 
 app.use(__webpack_require__(1));
 
