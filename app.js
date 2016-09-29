@@ -12,14 +12,14 @@ app.use(express.static(`${process.cwd()}/public`));
 app.use(bodyParser.json());
 
 app.post('/', function(req, res) {
-  const {human, unix} = req.body;
+  const {natural, unix} = req.body;
 
-  if(!human && !unix) {
+  if(!natural && !unix) {
     res.status(400).send('Invalid API call');
     return;
   }
 
-  res.json(dateHelper(human || unix));
+  res.json(dateHelper(natural || unix));
 });
 
 app.use(function(err, req, res, next) {

@@ -177,16 +177,16 @@ app.use(_bodyParser2.default.json());
 
 app.post('/', function (req, res) {
   var _req$body = req.body;
-  var human = _req$body.human;
+  var natural = _req$body.natural;
   var unix = _req$body.unix;
 
 
-  if (!human && !unix) {
+  if (!natural && !unix) {
     res.status(400).send('Invalid API call');
     return;
   }
 
-  res.json((0, _dateHelper2.default)(human || unix));
+  res.json((0, _dateHelper2.default)(natural || unix));
 });
 
 app.use(function (err, req, res, next) {

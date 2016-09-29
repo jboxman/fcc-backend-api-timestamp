@@ -49,11 +49,11 @@
   </p>
   <h5>Request</h5>
   <p>
-    Send a JSON payload with either a <strong>human</strong> key or a <strong>unix</strong> key. The former can be an ordinary date string. The latter must be a valid UNIX epoch value. If both keys are included, the <strong>unix</strong> key is ignored.
+    Send a JSON payload with either a <strong>natural</strong> key or a <strong>unix</strong> key. The former can be an ordinary date string. The latter must be a valid UNIX epoch value. If both keys are included, the <strong>unix</strong> key is ignored.
   </p>
   <pre>
 $ curl -H"Content-Type: application/json" \
-  -X POST -d '{"human":"today"}' https://lit-cliffs-66873.herokuapp.com/
+  -X POST -d '{"natural":"today"}' https://lit-cliffs-66873.herokuapp.com/
   </pre>
   <h5>Response</h5>
   <p>

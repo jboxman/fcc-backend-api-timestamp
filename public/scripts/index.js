@@ -4,7 +4,7 @@ $(function() {
       type: 'post',
       url: '/',
       data: JSON.stringify({
-        human: $('#time').val()
+        natural: $('#time').val()
       }),
       contentType: 'application/json',
       dataType: 'json',
