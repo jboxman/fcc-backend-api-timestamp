@@ -1,13 +1,25 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import dateHelper from './helpers/dateHelper';
 
-var app = express();
+const app = express();
 // Required for heroku
-var port = process.env.PORT || 3100;
+const port = process.env.PORT || 3100;
 
+// __dirname is '/' after babel
+app.use(express.static(`${process.cwd()}/public`));
 
-app.get('/:value', function(req, res) {
-  res.json(dateHelper(req.params['value']));
+app.use(bodyParser.json());
+
+app.post('/', function(req, res) {
+  const {human, unix} = req.body;
+
+  if(!human && !unix) {
+    res.status(400).send('Invalid API call');
+    return;
+  }
+
+  res.json(dateHelper(human || unix));
 });
 
 app.use(function(err, req, res, next) {

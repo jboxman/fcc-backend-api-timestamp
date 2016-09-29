@@ -1,0 +1,79 @@
+<html>
+
+<head>
+  <link rel="stylesheet prefetch" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles/main.css">
+  <title>Do you have the time?</title>
+</head>
+
+<body>
+
+<header class="page-header text-center">
+  <h1>Do you have the time?</h1>
+  <small>Roads? Where we're going, we don't need roads. - Dr. Emmett Brown, Back to the Future</small>
+</header>
+<section>
+
+<h2>Time</h2>
+
+<p>
+  Type a date below to learn its UNIX epoch time equivalent.
+  </p>
+
+  <form>
+  <div class="input-group">
+   <input type="text" class="form-control" id="time">
+   <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" id="go">Go</button>
+   </span>
+</div>
+  </form>
+
+  <div class="well well-lg" id="output">
+{
+  human:
+  unix:
+}
+  </div>
+
+</section>
+
+<section class="content">
+  <h3>API</h3>
+  <p>
+    The API endpoints listed below are available.
+  </p>
+  <h4>POST /</h4>
+  <p>
+    Converts either a unix epoch timestamp or a date string into an object literal.
+  </p>
+  <h5>Request</h5>
+  <p>
+    Send a JSON payload with either a <strong>human</strong> key or a <strong>unix</strong> key. The former can be an ordinary date string. The latter must be a valid UNIX epoch value. If both keys are included, the <strong>unix</strong> key is ignored.
+  </p>
+  <pre>
+$ curl -H"Content-Type: application/json" \
+  -X POST -d '{"human":"today"}' http://localhost:3100/
+  </pre>
+  <h5>Response</h5>
+  <p>
+  </p>
+  <pre>
+{
+  "unix":1474992000,
+  "natural":"September 27, 2016"
+}
+</pre>
+
+</section>
+
+<footer class="text-center">
+  Crafted by Jason Boxman. <a href="https://github.com/jboxman/fcc-backend-api-timestamp">GitHub</a>.
+</footer>
+
+</body>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+<script src="./scripts/index.js"></script>
+</html>
