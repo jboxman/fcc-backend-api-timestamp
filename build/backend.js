@@ -62,85 +62,131 @@ require("source-map-support").install();
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
-
-module.exports = require("express");
-
-/***/ },
-/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 'use strict';
 
-var express = __webpack_require__(0);
-var router = express.Router();
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isEpoch = isEpoch;
 
-router.use('/time', __webpack_require__(3));
+exports.default = function (value) {
+  var dateFmt = 'MMMM D, YYYY';
+  var unix = void 0;
+  var natural = void 0;
+  var parsedDate = void 0;
+  var asDate = void 0;
 
-/*
-router.get('/', function(req, res) {
-  res.render('index')
-})
-*/
+  if (isEpoch(value)) {
+    unix = value;
+    natural = _moment2.default.unix(value).format(dateFmt);
+  } else {
+    parsedDate = _chronoNode2.default.parseDate(value);
 
-module.exports = router;
+    if (parsedDate) {
+      asDate = new Date(parsedDate).getTime();
+      natural = (0, _moment2.default)(asDate).format(dateFmt);
+      unix = asDate / 1000.0;
+    } else {
+      unix = null;
+      natural = null;
+    }
+  }
+
+  return {
+    unix: unix,
+    natural: natural
+  };
+};
+
+var _moment = __webpack_require__(4);
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _chronoNode = __webpack_require__(3);
+
+var _chronoNode2 = _interopRequireDefault(_chronoNode);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function isEpoch(value) {
+  return (/^\d{10}$/.test(value)
+  );
+}
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+module.exports = require("body-parser");
 
 /***/ },
 /* 2 */
 /***/ function(module, exports) {
 
-module.exports = require("chrono-node");
+module.exports = require("express");
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-"use strict";
-'use strict';
-
-var express = __webpack_require__(0);
-var router = express.Router();
-
-router.get('/time/:value', function (req, res) {
-  console.log('hi');
-  res.type('text/plain');
-  res.send(req.param['value']);
-});
-
-module.exports = router;
+module.exports = require("chrono-node");
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+module.exports = require("moment");
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 'use strict';
 
-var express = __webpack_require__(0);
-var chrono = __webpack_require__(2);
+var _express = __webpack_require__(2);
 
-var app = express();
+var _express2 = _interopRequireDefault(_express);
+
+var _bodyParser = __webpack_require__(1);
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
+var _dateHelper = __webpack_require__(0);
+
+var _dateHelper2 = _interopRequireDefault(_dateHelper);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var app = (0, _express2.default)();
 // Required for heroku
 var port = process.env.PORT || 3100;
 
-app.use(__webpack_require__(1));
+// __dirname is '/' after babel
+app.use(_express2.default.static(process.cwd() + '/public'));
 
-app.get('/', function (req, res) {
-  res.type('text/plain');
-  res.send('Time.');
-});
+app.use(_bodyParser2.default.json());
 
-app.get('/:value', function (req, res) {
-  console.log(req.params['value']);
-  res.type('text/plain');
-  //res.send('Meadowlark Travel');
-  res.json({});
+app.post('/', function (req, res) {
+  var _req$body = req.body;
+  var human = _req$body.human;
+  var unix = _req$body.unix;
+
+
+  if (!human && !unix) {
+    res.status(400).send('Invalid API call');
+    return;
+  }
+
+  res.json((0, _dateHelper2.default)(human || unix));
 });
 
 app.use(function (err, req, res, next) {
